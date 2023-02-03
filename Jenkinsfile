@@ -2,9 +2,9 @@ REGION = 'ap-northeast-1'
 EKS_API = 'https://2B8D9383D41599D31BEDDA515683C782.gr7.ap-northeast-1.eks.amazonaws.com'
 EKS_CLUSTER_NAME='k8s-demo'
 EKS_NAMESPACE='default'
-EKS_JENKINS_CREDENTIAL_ID='kubectl-deploy-credentials'
 ECR_PATH = '035884387009.dkr.ecr.ap-northeast-1.amazonaws.com'
 ECR_IMAGE = 'latest'
+AWS_CREDENTIAL_ID = 'aws-JHS-credentials'
 
 node {
     stage('Clone Repository'){
