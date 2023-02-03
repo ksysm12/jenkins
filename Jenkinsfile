@@ -1,10 +1,11 @@
-REGION = 'ap-northeast-1'
-EKS_API = 'https://2B8D9383D41599D31BEDDA515683C782.gr7.ap-northeast-1.eks.amazonaws.com'
-EKS_CLUSTER_NAME='k8s-demo'
+REGION = 'ap-northeast-2'
+EKS_API = 'https://6918042C2B9B60669CFCE2B59402AF83.gr7.ap-northeast-2.eks.amazonaws.com'
+EKS_CLUSTER_NAME='EKS-AI-Cluster'
 EKS_NAMESPACE='default'
-ECR_PATH = '035884387009.dkr.ecr.ap-northeast-1.amazonaws.com'
-ECR_IMAGE = 'latest'
-AWS_CREDENTIAL_ID = 'aws-JHS-credentials'
+EKS_JENKINS_CREDENTIAL_ID='kubectl-deploy-credentials'
+ECR_PATH = '998902534284.dkr.ecr.ap-northeast-2.amazonaws.com'
+ECR_IMAGE = 'test-repository'
+AWS_CREDENTIAL_ID = 'aws-credentials'
 
 node {
     stage('Clone Repository'){
@@ -31,7 +32,7 @@ node {
         withKubeConfig([credentialsId: "kubectl-deploy-credentials",
                         serverUrl: "${EKS_API}",
                         clusterName: "${EKS_CLUSTER_NAME}"]){
-            sh "sed 's/IMAGE_VERSION/v${env.BUILD_ID}/g' service.yaml > output.yaml"
+            sh "sed 's/IMAGE_VERSION/${env.BUILD_ID}/g' service.yaml > output.yaml"
             sh "aws eks --region ${REGION} update-kubeconfig --name ${EKS_CLUSTER_NAME}"
             sh "kubectl apply -f output.yaml"
             sh "rm output.yaml"
